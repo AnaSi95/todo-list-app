@@ -10,7 +10,7 @@ func main() {
 	route := gin.Default()
 
 	// Подключение к базе данных
-	TodoLists.ConnectDB()
+	TodoLists.ConnectToDB()
 
 	// Маршруты
 	route.GET("/tasks", controllers.GetAllTasks)
