@@ -1,8 +1,9 @@
 package main
 
 import (
-	"todo-list-app/TodoLists"
-	"todo-list-app/controllers"
+	"github.com/AnaSi95/todo-list-app/TodoLists"
+	"github.com/AnaSi95/todo-list-app/controllers"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -12,11 +13,11 @@ func main() {
 	TodoLists.ConnectDB()
 
 	// Маршруты
-	route.GET("/tracks", controllers.GetAllTracks)
-	route.POST("/tracks", controllers.CreateTrack)
-	route.GET("/tracks/:id", controllers.GetTrack)
-	route.PATCH("/tracks/:id", controllers.UpdateTrack)
-	route.DELETE("/tracks/:id", controllers.DeleteTrack)
+	route.GET("/tasks", controllers.GetAllTasks)
+	route.POST("/tasks", controllers.CreateTask)
+	route.GET("/tasks/:id", controllers.GetTask)
+	route.PATCH("/tasks/:id", controllers.UpdateTask)
+	route.DELETE("/tasks/:id", controllers.DeleteTask)
 
 	// Запуск сервера
 	route.Run()
