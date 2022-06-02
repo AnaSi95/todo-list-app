@@ -1,13 +1,23 @@
 package main
 
 import (
-	todo_list_app "github.com/AnaSi95/todo-list-app"
-	"log"
+	"todo-list-app/TodoLists"
+	"todo-list-app/controllers"
 )
 
 func main() {
-	srv := new(todo_list_app.Server)
-	if err := srv.Run("8000"); err != nil {
-		log.Fatalf("error occured while running http server: %s", err.Error())
-	}
+	route := gin.Default()
+
+	// Подключение к базе данных
+	TodoLists.ConnectDB()
+
+	// Маршруты
+	route.GET("/tracks", controllers.GetAllTracks)
+	route.POST("/tracks", controllers.CreateTrack)
+	route.GET("/tracks/:id", controllers.GetTrack)
+	route.PATCH("/tracks/:id", controllers.UpdateTrack)
+	route.DELETE("/tracks/:id", controllers.DeleteTrack)
+
+	// Запуск сервера
+	route.Run()
 }
