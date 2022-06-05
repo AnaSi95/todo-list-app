@@ -1,24 +1,27 @@
 package main
 
 import (
-	"github.com/AnaSi95/todo-list-app/TodoLists"
-	"github.com/AnaSi95/todo-list-app/controllers"
-	"github.com/gin-gonic/gin"
+	"fmt"
+	"github.com/AnaSi95/todo-list-app/configs"
+	"github.com/gorilla/mux"
+	"log"
+	"net/http"
 )
 
+type CounterHandler struct {
+	counter int
+}
+
+func (ct *CounterHandler) ServerHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(ct.counter)
+	ct.counter++
+	fmt.Fprintf(w, "Counter:", ct.counter)
+}
+
 func main() {
-	route := gin.Default()
+	log.Println("Starting the HTTP server on port 8080")
+	router := mux.NewRouter().StrictSlash(true)
+	log.Fatal(http.ListenAndServe("localhost:8080", router))
 
-	// Подключение к базе данных
-	TodoLists.ConnectToDB()
-
-	// Маршруты
-	route.GET("/tasks", controllers.GetAllTasks)
-	route.POST("/tasks", controllers.CreateTask)
-	route.GET("/tasks/:id", controllers.GetTask)
-	route.PATCH("/tasks/:id", controllers.UpdateTask)
-	route.DELETE("/tasks/:id", controllers.DeleteTask)
-
-	// Запуск сервера
-	route.Run()
+	configs.ConnectDB()
 }
